@@ -1,0 +1,4 @@
+5 0 * * * /usr/bin/docker rm -v $(docker ps -a -q -f status=exited) > /var/log/dockercleanup.log 2>&1
+10 0 * * * /usr/bin/docker rmi $(docker images -f "dangling=true" -q) >> /var/log/dockercleanup.log 2>&1
+15 0 * * * /usr/bin/docker run -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker:/var/lib/docker --rm martin/docker-cleanup-volumes
+20 0 * * * /usr/local/bin/curator delete indices --prefix dockbeat --older-than 1 --time-unit days --timestring '\%Y.\%m.\%d'
