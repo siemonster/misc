@@ -1,0 +1,21 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+
+[req_distinguished_name]
+countryName = AU
+countryName_default = AU
+stateOrProvinceName = VIC
+stateOrProvinceName_default = VIC
+localityName = Melbourne
+localityName_default = Melbourne
+organizationalUnitName = SIEMonster
+organizationalUnitName_default = SIEMonster
+commonName = site.dname
+commonName_max = 64
+
+[ v3_req ]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
