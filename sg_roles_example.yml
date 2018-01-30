@@ -1,0 +1,181 @@
+admin:
+  cluster:
+    - ALL
+  indices:
+    "*":
+      "*":
+        - INDEX_ALL
+
+kibana_user:
+  cluster:
+    - MONITOR
+    - READ
+  indices:
+    '?kibana*':
+      '*':
+        - INDEX_ALL
+    'wazuh-*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+    '?wazuh*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+    'logstash-*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+    'syslog-*':
+       '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+
+wazuh_user:
+  cluster:
+    - indices:admin/template/get
+    - indices:admin/template/put
+    - indices:data/write/bulk*
+  indices:
+    'wazuh-*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+        - indices:admin/get
+    '?wazuh*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+        - indices:admin/get
+
+# Allows each user to access own named index
+sg_own_index:
+  cluster:
+    - CLUSTER_COMPOSITE_OPS
+  indices:
+    '${user_name}-*':
+      '*':
+        - INDEX_ALL
+
+kibana_own_index:
+  indices:
+    '?kibana-${user_name}':
+      '*':
+        - INDEX_ALL
+
+skedler_own_index:
+  indices:
+    '?skedler-${user_name}':
+      '*':
+        - INDEX_ALL
+
+sg_public:
+  cluster:
+    - CLUSTER_MONITOR
+    - CLUSTER_COMPOSITE_OPS
+  indices:
+    'wazuh-*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+    '?wazuh*':
+      '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX
+    '?kibana':
+      '*':
+        - CRUD
+    'logstash-*':
+      '*':
+        - READ
+    'syslog-*':
+       '*':
+        - READ
+
+sg_role_kibana_basic:
+  cluster:
+    - cluster:monitor/main
+    - CLUSTER_COMPOSITE_OPS
+  indices:
+    '${user_name}-*':
+      '*':
+        - indices:admin/mappings/fields/get*
+        - indices:data/read/field_stats
+    '?kibana-${user_name}':
+      '*':
+        - KIBANA_SERVER
+
+sg_readonly_and_monitor:
+  cluster:
+    - CLUSTER_MONITOR
+    - CLUSTER_COMPOSITE_OPS
+  indices:
+    '*':
+      '*':
+        - INDEX_ALL
+
+sg_readall:
+  cluster:
+    -  CLUSTER_COMPOSITE_OPS
+  indices:
+    '*':
+      '*':
+        - READ
+        - indices:admin/mappings/fields/get
+
+sg_readonly_dlsfls:
+  cluster:
+    - CLUSTER_COMPOSITE_OPS
+  indices:
+    '/\S*/':
+      '*':
+        - READ
+      _dls_: '{"term" : {"_type" : "legends"}}'
+      _fls_:
+        - 'aaa'
+        - 'bbb'
+
+beats_user:
+  cluster:
+    - ES_INPUT
+  indices:
+    "*beat-*":
+      "*":
+        - INDEX_OWNER
+
+logstash_user:
+  cluster:
+    - indices:admin/template/get
+    - indices:admin/template/put
+    - indices:data/write/bulk*
+  indices:
+    'wazuh-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    'logstash-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    '*beat*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+    'syslog-*':
+      '*':
+        - CRUD
+        - CREATE_INDEX
+
+read_only:
+  indices:
+    '*':
+      '*':
+        - READ
