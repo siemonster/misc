@@ -34,6 +34,11 @@ kibana_user:
         - SEARCH
         - CRUD
         - CREATE_INDEX
+    'apache-*':
+       '*':
+        - SEARCH
+        - CRUD
+        - CREATE_INDEX  
 
 wazuh_user:
   cluster:
@@ -97,6 +102,9 @@ sg_public:
       '*':
         - READ
     'syslog-*':
+       '*':
+        - READ
+    'apache-*':
        '*':
         - READ
 
@@ -171,6 +179,11 @@ logstash_user:
         - CREATE_INDEX
     'syslog-*':
       '*':
+        - CRUD
+        - CREATE_INDEX
+    'apache-*':
+       '*':
+        - SEARCH
         - CRUD
         - CREATE_INDEX
 
