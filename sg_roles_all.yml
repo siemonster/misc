@@ -44,6 +44,7 @@ kibana_user:
         - SEARCH
         - CRUD
         - CREATE_INDEX
+    # Remove the following stanza to restrict access
     '*':
        '*':
         - SEARCH
@@ -120,6 +121,7 @@ sg_public:
     'osint-*':
        '*':
         - READ
+    # Remove the following stanza to restrict access
     '*':
        '*':
         - READ
@@ -207,6 +209,7 @@ logstash_user:
         - SEARCH
         - CRUD
         - CREATE_INDEX
+    # Remove the following stanza to restrict access
     '*':
        '*':
         - SEARCH
