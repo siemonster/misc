@@ -1,0 +1,909 @@
+{
+    "order": 0,
+    "index_patterns": [
+      "cisco-fw-*"
+    ],
+    "settings": {
+      "index": {
+        "number_of_shards": "3",
+        "number_of_replicas": "0",
+        "refresh_interval": "30s"
+      }
+    },
+    "mappings": {
+      "_default_": {
+        "dynamic_templates": [
+          {
+            "integers": {
+              "mapping": {
+                "type": "integer"
+              },
+              "match_mapping_type": "long"
+            }
+          },
+          {
+            "message_field": {
+              "path_match": "message",
+              "mapping": {
+                "norms": false,
+                "type": "text"
+              },
+              "match_mapping_type": "string"
+            }
+          },
+          {
+            "string_fields": {
+              "mapping": {
+                "norms": false,
+                "fields": {
+                  "keyword": {
+                    "ignore_above": 256,
+                    "type": "keyword"
+                  }
+                },
+                "type": "text"
+              },
+              "match_mapping_type": "string",
+              "match": "*"
+            }
+          }
+        ],
+        "properties": {
+          "@timestamp": {
+            "type": "date"
+          },
+          "geoip": {
+            "dynamic": "true",
+            "properties": {
+              "ip": {
+                "type": "ip"
+              },
+              "latitude": {
+                "type": "half_float"
+              },
+              "location": {
+                "type": "geo_point"
+              },
+              "longitude": {
+                "type": "half_float"
+              }
+            }
+          },
+          "@version": {
+            "type": "keyword"
+          }
+        }
+      },
+      "doc": {
+        "dynamic_templates": [
+          {
+            "integers": {
+              "mapping": {
+                "type": "integer"
+              },
+              "match_mapping_type": "long"
+            }
+          },
+          {
+            "message_field": {
+              "path_match": "message",
+              "mapping": {
+                "norms": false,
+                "type": "text"
+              },
+              "match_mapping_type": "string"
+            }
+          },
+          {
+            "string_fields": {
+              "mapping": {
+                "norms": false,
+                "fields": {
+                  "keyword": {
+                    "ignore_above": 256,
+                    "type": "keyword"
+                  }
+                },
+                "type": "text"
+              },
+              "match_mapping_type": "string",
+              "match": "*"
+            }
+          }
+        ],
+        "properties": {
+          "err_icmp_type": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "real_mapped_ip_address": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "reason": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "src_interface": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "public_ip": {
+            "type": "ip"
+          },
+          "identity_firewall_user": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "mapped_interface_port": {
+            "type": "integer"
+          },
+          "orig_src_ip": {
+            "type": "ip"
+          },
+          "type": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "orig_src_port": {
+            "type": "integer"
+          },
+          "seq_num": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "outbound_to_svc_bytes": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "protocol": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "cisco_message": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "orig_dst_port": {
+            "type": "integer"
+          },
+          "host": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "mapped_interface_ip_address": {
+            "type": "ip"
+          },
+          "action": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "icmp_code": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "group": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "svc_message": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "err_dst_ip": {
+            "type": "ip"
+          },
+          "err_protocol": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "group_policy": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "mapped_ip_address": {
+            "type": "ip"
+          },
+          "group_name": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "err_src_ip": {
+            "type": "ip"
+          },
+          "err_dst_interface": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "duration_second": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "outbound_data_packets": {
+            "norms": false,
+            "type": "long",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "spi": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "tags": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "outbound_control_packets": {
+            "norms": false,
+            "type": "long",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "real_interface_ip_address": {
+            "type": "ip"
+          },
+          "transmitted_packets": {
+            "norms": false,
+            "type": "long",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "staus": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_rate_id": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "orig_dst_ip": {
+            "type": "ip"
+          },
+          "control_bytes": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "hashcode1": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "SVC_message": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "hashcode2": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "connection_identifier": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "real_mapped_port": {
+            "type": "integer"
+          },
+          "status": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "icmp_type": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "policy_id": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "svc_type_number": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "real_port": {
+            "type": "integer"
+          },
+          "assigned_ipv6": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "session": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "user_name": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "user_agent_details": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "duration_minute": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "interface": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_rate_current_burst": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "dst_ip": {
+            "type": "ip"
+          },
+          "err_icmp_code": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_total_count": {
+            "type": "integer"
+          },
+          "data_transmitted": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_rate_max_burst": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "err_src_fwuser": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "src_ip": {
+            "type": "ip"
+          },
+          "real_interface_port": {
+            "type": "integer"
+          },
+          "data_transfered_in_bytes": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "@version": {
+            "type": "keyword"
+          },
+          "session_type": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "direction": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "err_src_interface": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "policy": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "syslog_pri": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "timestamp": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_rate_max_avg": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_packets": {
+            "norms": false,
+            "type": "long",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_rate_current_avg": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "geoip": {
+            "dynamic": "true",
+            "properties": {
+              "ip": {
+                "type": "ip"
+              },
+              "latitude": {
+                "type": "half_float"
+              },
+              "location": {
+                "type": "geo_point"
+              },
+              "longitude": {
+                "type": "half_float"
+              }
+            }
+          },
+          "orig_protocol": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "connection_type": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "ciscotag": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "policy_name": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "kafka_topic": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "assigned_ip": {
+            "type": "ip"
+          },
+          "dst_interface": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "logsource": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "message": {
+            "norms": false,
+            "type": "text"
+          },
+          "command": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "drop_type": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "src_port": {
+            "type": "integer"
+          },
+          "data_received": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "@timestamp": {
+            "type": "date"
+          },
+          "duration_hour": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "threshold_value": {
+            "norms": false,
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "dst_port": {
+            "type": "integer"
+          },
+          "user": {
+            "norms": false,
+            "type": "integer",
+            "fields": {
+              "keyword": {
+                "ignore_above": 256,
+                "type": "keyword"
+              }
+            }
+          },
+          "real_ip_address": {
+            "type": "ip"
+          }
+        }
+      }
+    },
+    "aliases": {}
+  }
