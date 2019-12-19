@@ -185,6 +185,7 @@ HTTPDATE %{MONTHDAY}/%{MONTH}/%{YEAR}:%{TIME} %{INT}
 
 # Shortcuts
 QS %{QUOTEDSTRING}
+QUOTEDQUOTES (\"((?:[^\"]|\"\")*+)\")
 
 # Log formats
 SYSLOGBASE %{SYSLOGTIMESTAMP:timestamp} (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} %{SYSLOGPROG}:
