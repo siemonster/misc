@@ -1,0 +1,91 @@
+version: '2.4'
+services:
+  siemonster:
+    image: registry.gitlab.com/siemonster/webserver:prod-v4.3-smb
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_DB_URL=mongodb://${MONGODB_USER:-siemuser02}:${MONGODB_PASS:-siemonsterv3}@mongodb:27017/${MONGODB_DATABASE:-siemonsterv3}
+      - HASH_SALT=6b44d8edb86b4ca8bb8f3aaa35ddaf7d
+      - PASSWORD_REGEX=^(?=.*[A-Za-z])(?=.*\d)(?=.*[$$@$$!%*#?&])[A-Za-z\d$$@$$!%*#?&]{1,}$$
+      - PASSWORD_REQUIREMENTS=8 Characters in Length, upper and lower case letters, at least 1 number, at least 1 symbol
+      - NODE_ENV=production
+      - KIBANA_SECRET=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      - ELASTIC_URL=http://elastic:s13M0nSterV3@es-master:9200/
+      - JWT_SECRET=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      - FRAME_MISP_LOGIN=${ADMIN_EMAIL:-admin@siemonster.internal.com}
+      - FRAME_MISP_PASSWORD=4kJFW9vkwqUiARniv3BpJZmFre
+      - FRAME_OPENCTI_LOGIN=${ADMIN_EMAIL:-admin@siemonster.internal.com}
+      - FRAME_OPENCTI_PASSWORD=${OPENCTI_ADMIN_PASSWORD:-s13M0nSterV4}
+    volumes:
+      - siemserve_logs:/usr/siemserve/logs
+      - siemserve_upload_frames:/usr/siemserve/public/assets/frames/upload
+      - siemserve_themes:/usr/siemserve/public/assets/styles
+      - siemserve_upload_logo:/usr/siemserve/public/assets/upload/logo
+    networks:
+      siemonster:
+
+  webreporting:
+    image: registry.gitlab.com/siemonster/webreporting:prod-v4.3
+    depends_on:
+      - mongodb
+      - siemonster
+    environment:
+      - MONGO_DB_URL=mongodb://${MONGODB_USER:-siemuser02}:${MONGODB_PASS:-siemonsterv3}@mongodb:27017/${MONGODB_DATABASE:-siemonsterv3}
+      - HASH_SALT=6b44d8edb86b4ca8bb8f3aaa35ddaf7d
+      - PASSWORD_REGEX=^(?=.*[A-Za-z])(?=.*\d)(?=.*[$$@$$!%*#?&])[A-Za-z\d$$@$$!%*#?&]{1,}$$
+      - PASSWORD_REQUIREMENTS=8 Characters in Length, upper and lower case letters, at least 1 number, at least 1 symbol
+      - NODE_ENV=production
+      - KIBANA_SECRET=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      - ELASTIC_URL=http://elastic:s13M0nSterV3@es-master:9200/
+      - JWT_SECRET=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      - PORT=3001
+      - TENANT_INDEX=0
+    volumes:
+      - webreporting_data:/usr/siemserve/data
+    networks:
+      siemonster:
+
+  mongodb:
+    build: https://gitlab.com/siemonster/mongo.git
+    environment:
+      MONGODB_DATABASE: ${MONGODB_DATABASE:-siemonsterv3}
+      MONGODB_PASS: ${MONGODB_PASS:-siemonsterv3}
+      MONGODB_USER: ${MONGODB_USER:-siemuser02}
+    networks:
+      siemonster:
+
+  nginx:
+    image: registry.gitlab.com/siemonster/webclient:prod-v4.3
+    environment:
+      # - SIEM_HOST=internal.siemonster.com
+      - SIEM_HTTPS=true
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - siemonster
+      - patrowl-web
+    volumes:
+      - siemserve_upload_frames:/usr/siemserve/public/assets/frames/upload
+      - siemserve_themes:/usr/siemserve/public/assets/styles
+      - siemserve_upload_logo:/usr/siemserve/public/assets/upload/logo
+      - patrowl_static:/usr/siemserve/patrowl/staticfiles
+      - patrowl_media:/usr/siemserve/patrowl/media
+      - patrowl_log:/var/log/nginx/patrowl
+    networks:
+      siemonster:
+
+networks:
+  siemonster:
+
+volumes:
+  siemserve_upload_frames:
+  siemserve_themes:
+  siemserve_upload_logo:
+  siemserve_logs:
+  webreporting_data:
+  patrowl_static:
+  patrowl_media:
+  patrowl_log:
+  patrowl_db_data:
