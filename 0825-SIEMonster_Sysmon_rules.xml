@@ -1,0 +1,53 @@
+<!--
+  -  Watchguard v1.0 Rules (Beta)
+  -  Created by SIEMonster (Louis Bernardo)
+  -  Copyright (C) SIEMonster
+  -  This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2.
+-->
+
+<group name="windows, sysmon, sysmon_process-anomalies,">
+<!-- 110780 to 110980-->
+<!--    The first three rule id's have been reserved for catchall testing. -->
+
+<!-- MITRE Rules -->
+<!-- The following rules will trigger when any of the following conditions and sub-conditions are met powershell is detected (either by running a command such as powershell xxxx from the DOS prompt or the relevant command being searched for inside of Powershell -->
+
+  <rule id="110783" level="3">
+    <if_group>sysmon</if_group>
+    <match>MitreRef=|MitreRefS=</match>
+    <options>no_full_log</options>
+    <description>Sysmon Mitre Event Detected: $(win.eventdata.ruleName)</description>
+  </rule>
+  <rule id="110784" level="3">
+    <if_group>sysmon</if_group>
+    <field name="win.eventdata.originalFilename">PowerShell.exe</field>
+    <options>no_full_log</options>
+    <description>Sysmon Powershell event detected - Powershell instance started</description>
+  </rule>
+  <rule id="110785" level="7">
+    <if_sid>110784</if_sid>
+    <field name="win.eventdata.commandLine">Invoke-WebRequest</field>
+    <options>no_full_log</options>
+    <description>A Powershell instance was spawned from $(win.eventdata.parentImage) and included the Invoke-WebRequest module. This should be investigated.  MITRE T1086 - PowerShell Mitigation</description>
+  </rule>
+  <rule id="110786" level="12">
+    <if_sid>110785</if_sid>
+    <field name="win.eventdata.commandLine">-OutFile</field>
+    <options>no_full_log</options>
+    <description>A Powershell instance was spawned from $(win.eventdata.parentImage) with the Invoke-WebRequest module and -OutFile option. This should urgently be investigated. MITRE T1086 - PowerShell Mitigation</description>
+  </rule>
+  <rule id="110787" level="7">
+    <if_group>sysmon</if_group>
+    <field name="win.eventdata.Image">powershell.exe</field>
+    <field name="win.eventdata.RuleName">Powershell Network Connection</field>
+    <options>no_full_log</options>
+    <description>A Powershell instance was spawned and an outbound connection was created to IP $(win.eventdata.destinationip). This should urgently be investigated. MITRE T1086 - PowerShell Mitigation</description>
+  </rule>
+  <rule id="110788" level="12">
+    <if_sid>110787</if_sid>
+    <field name="win.eventdata.destinationportname">https|http</field>
+    <options>no_full_log</options>
+    <description>A Powershell instance was spawned and an outbound $(win.eventdata.destinationportname) connection was created to IP $(win.eventdata.destinationip). This should urgently be investigated. MITRE T1086 - PowerShell Mitigation</description>
+  </rule>
+<!-- MITRE Rules -->
+</group>
